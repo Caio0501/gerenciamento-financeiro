@@ -1,0 +1,26 @@
+.detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  
+  h2 {
+    margin: 0;
+  }
+}
+
+.tab-content {
+  padding: 24px 0;
+}
+
+.empty-state {
+  padding: 24px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}

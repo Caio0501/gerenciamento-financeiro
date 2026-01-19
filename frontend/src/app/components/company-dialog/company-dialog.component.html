@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>
+  {{ isEdit ? 'Editar Empresa' : 'Nova Empresa' }}
+  <button mat-icon-button mat-dialog-close class="close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="company-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Nome da Empresa</mat-label>
+      <input matInput formControlName="nome" placeholder="Ex: Minha Loja">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>CNPJ</mat-label>
+      <input matInput formControlName="cnpj" placeholder="Ex: 00.000.000/0001-00">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Descrição</mat-label>
+      <input matInput formControlName="descricao" placeholder="Ex: Minha empresa principal">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">Salvar</button>
+</mat-dialog-actions>

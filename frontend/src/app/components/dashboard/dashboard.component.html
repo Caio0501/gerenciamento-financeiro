@@ -1,0 +1,112 @@
+<div class="dashboard-header">
+  <div class="titles">
+    <h2>Dashboard</h2>
+    <p class="subtitle">Visão geral de {{ currentCompany?.nome || 'Todas as Empresas' }}</p>
+  </div>
+</div>
+
+<div *ngIf="!currentCompany" class="no-company-state">
+  <mat-card>
+    <mat-card-content>
+      <h3>Nenhuma empresa selecionada</h3>
+      <p>Selecione uma empresa no menu lateral para visualizar os dados.</p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div *ngIf="currentCompany" class="dashboard-content">
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <mat-card class="kpi-card">
+      <mat-card-header>
+        <div mat-card-avatar class="icon-box green">
+          <mat-icon>account_balance_wallet</mat-icon>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <span class="label">Saldo Atual</span>
+        <div class="value" [class.negative]="saldo < 0">{{ saldo | currency:'BRL' }}</div>
+        <span class="subtext">Positivo</span>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <mat-card-header>
+        <div mat-card-avatar class="icon-box green-light">
+          <mat-icon>trending_up</mat-icon>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <span class="label">Total de Receitas</span>
+        <div class="value green-text">{{ totalReceitas | currency:'BRL' }}</div>
+        <span class="subtext">{{ recentTransactions.length }} transações recentes</span>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <mat-card-header>
+        <div mat-card-avatar class="icon-box red-light">
+          <mat-icon>trending_down</mat-icon>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <span class="label">Total de Gastos</span>
+        <div class="value red-text">{{ totalGastos | currency:'BRL' }}</div>
+        <span class="subtext">Contabilizado</span>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <mat-card-header>
+        <div mat-card-avatar class="icon-box blue-light">
+          <mat-icon>business</mat-icon>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <span class="label">Empresa</span>
+        <div class="value dark-text">1</div>
+        <span class="subtext">Ativa</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Charts & List Row -->
+  <div class="charts-row">
+    <!-- Chart Card -->
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Gastos por Categoria</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="chart-container">
+        <div echarts [options]="chartOption" class="echart"></div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Recent Transactions List -->
+    <mat-card class="list-card">
+      <mat-card-header>
+        <mat-card-title>Transações Recentes</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="transaction-list">
+          <div class="transaction-item" *ngFor="let item of recentTransactions">
+            <div class="item-icon" [ngClass]="item.type === 'expense' ? 'red-bg' : 'green-bg'">
+              <mat-icon>{{ item.type === 'expense' ? 'trending_down' : 'trending_up' }}</mat-icon>
+            </div>
+            <div class="item-details">
+              <span class="item-desc">{{ item.desc || item.category }}</span>
+              <span class="item-meta">{{ item.date | date:'dd MMM' }} • {{ item.method }}</span>
+            </div>
+            <div class="item-amount" [ngClass]="item.type === 'expense' ? 'red-text' : 'green-text'">
+              {{ item.val | currency:'BRL' }}
+            </div>
+          </div>
+          
+          <div *ngIf="recentTransactions.length === 0" class="empty-list">
+            Nenhuma transação registrada.
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+@import '../company-list/company-list.component.scss';
+
+.icon-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 200, 83, 0.1);
+  border-radius: 8px;
+  color: #00C853;
+  
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}

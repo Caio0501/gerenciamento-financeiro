@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>
+  {{ isEdit ? 'Editar Tipo de Receita' : 'Novo Tipo de Receita' }}
+  <button mat-icon-button mat-dialog-close class="close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="dialog-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome" placeholder="Ex: Salário">
+    </mat-form-field>
+
+    <div class="color-input-section">
+      <label>Cor</label>
+      <input type="color" formControlName="cor" class="color-input">
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">Criar</button>
+</mat-dialog-actions>

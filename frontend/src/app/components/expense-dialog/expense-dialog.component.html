@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>
+  Adicionar Gasto
+  <button mat-icon-button mat-dialog-close class="close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="expense-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Descrição</mat-label>
+      <input matInput formControlName="descricao">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Valor</mat-label>
+      <input matInput type="number" formControlName="valor">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Data de Pagamento</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="dataPagamento">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Categoria</mat-label>
+      <mat-select formControlName="categoria">
+        <mat-option *ngFor="let c of categorias" [value]="c">
+          {{ c.nome }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Forma de Pagamento</mat-label>
+      <mat-select formControlName="formaPagamento">
+        <mat-option *ngFor="let f of formasPagamento" [value]="f">
+          {{ f.nome }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">Salvar</button>
+</mat-dialog-actions>

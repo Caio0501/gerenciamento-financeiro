@@ -1,0 +1,68 @@
+<div class="settings-container">
+  <h2>Tabelas Auxiliares</h2>
+  
+  <mat-tab-group>
+    <mat-tab label="Categorias de Gasto">
+      <div class="tab-content">
+        <div class="add-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Nova Categoria</mat-label>
+            <input matInput [(ngModel)]="newCategoria" (keyup.enter)="addCategoria()">
+          </mat-form-field>
+          <button mat-mini-fab color="primary" (click)="addCategoria()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        
+        <mat-list>
+          <mat-list-item *ngFor="let c of categorias">
+            <mat-icon matListItemIcon>label</mat-icon>
+            <div matListItemTitle>{{ c.nome }}</div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Formas de Pagamento">
+      <div class="tab-content">
+        <div class="add-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Nova Forma de Pagamento</mat-label>
+            <input matInput [(ngModel)]="newFormaPagamento" (keyup.enter)="addFormaPagamento()">
+          </mat-form-field>
+          <button mat-mini-fab color="primary" (click)="addFormaPagamento()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        
+        <mat-list>
+          <mat-list-item *ngFor="let f of formasPagamento">
+            <mat-icon matListItemIcon>payment</mat-icon>
+            <div matListItemTitle>{{ f.nome }}</div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Tipos de Receita">
+      <div class="tab-content">
+        <div class="add-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Novo Tipo de Receita</mat-label>
+            <input matInput [(ngModel)]="newTipoReceita" (keyup.enter)="addTipoReceita()">
+          </mat-form-field>
+          <button mat-mini-fab color="primary" (click)="addTipoReceita()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        
+        <mat-list>
+          <mat-list-item *ngFor="let t of tiposReceita">
+            <mat-icon matListItemIcon>trending_up</mat-icon>
+            <div matListItemTitle>{{ t.nome }}</div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

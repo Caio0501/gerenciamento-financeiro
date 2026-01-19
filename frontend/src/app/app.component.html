@@ -1,0 +1,65 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" opened class="app-sidenav">
+    <div class="logo-area">
+      <mat-icon>account_balance_wallet</mat-icon>
+      <h1>FinanceApp</h1>
+    </div>
+
+    <div class="company-selector" *ngIf="companies.length > 0">
+      <label>Empresa Ativa</label>
+      <mat-form-field appearance="outline" class="dark-input">
+        <mat-select [ngModel]="selectedCompany" (selectionChange)="onCompanyChange($event.value)">
+          <mat-option *ngFor="let c of companies" [value]="c">
+            {{ c.nome }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="nav-section">
+      <h3>MENU PRINCIPAL</h3>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+          <mat-icon matListItemIcon>dashboard</mat-icon>
+          <span matListItemTitle>Dashboard</span>
+        </a>
+        <a mat-list-item routerLink="/companies" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>business</mat-icon>
+          <span matListItemTitle>Empresas</span>
+        </a>
+        <a mat-list-item routerLink="/expenses" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>trending_down</mat-icon>
+          <span matListItemTitle>Gastos</span>
+        </a>
+        <a mat-list-item routerLink="/revenues" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>trending_up</mat-icon>
+          <span matListItemTitle>Receitas</span>
+        </a>
+      </mat-nav-list>
+
+      <h3>CONFIGURAÇÕES</h3>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/payment-methods" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>payment</mat-icon>
+          <span matListItemTitle>Formas de Pagamento</span>
+        </a>
+        <a mat-list-item routerLink="/categories" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>label</mat-icon>
+          <span matListItemTitle>Categorias</span>
+        </a>
+        <a mat-list-item routerLink="/revenue-types" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>trending_up</mat-icon>
+          <span matListItemTitle>Tipos de Receita</span>
+        </a>
+      </mat-nav-list>
+    </div>
+
+    <div class="sidebar-footer">
+      © 2024 FinanceApp
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="main-content">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

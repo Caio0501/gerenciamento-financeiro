@@ -1,0 +1,48 @@
+<div class="detail-container">
+  <div class="header">
+    <button mat-icon-button routerLink="/">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2>Detalhes da Empresa</h2>
+  </div>
+
+  <mat-tab-group>
+    <mat-tab label="Gastos">
+      <div class="tab-content">
+        <button mat-raised-button color="warn" (click)="openExpenseDialog()">
+          <mat-icon>add</mat-icon> Adicionar Gasto
+        </button>
+        
+        <mat-list>
+          <mat-list-item *ngFor="let expense of expenses">
+            <mat-icon matListItemIcon>money_off</mat-icon>
+            <div matListItemTitle>{{ expense.descricao }} - {{ expense.valor | currency:'BRL' }}</div>
+            <div matListItemLine>{{ expense.dataPagamento | date:'dd/MM/yyyy' }} - {{ expense.categoria.nome }}</div>
+          </mat-list-item>
+          <div *ngIf="expenses.length === 0" class="empty-state">
+            Nenhum gasto registrado.
+          </div>
+        </mat-list>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Receitas">
+      <div class="tab-content">
+        <button mat-raised-button color="primary" (click)="openRevenueDialog()">
+          <mat-icon>add</mat-icon> Adicionar Receita
+        </button>
+
+        <mat-list>
+          <mat-list-item *ngFor="let revenue of revenues">
+            <mat-icon matListItemIcon>attach_money</mat-icon>
+            <div matListItemTitle>{{ revenue.descricao }} - {{ revenue.valor | currency:'BRL' }}</div>
+            <div matListItemLine>{{ revenue.dataRecebimento | date:'dd/MM/yyyy' }} - {{ revenue.tipoReceita.nome }}</div>
+          </mat-list-item>
+          <div *ngIf="revenues.length === 0" class="empty-state">
+            Nenhuma receita registrada.
+          </div>
+        </mat-list>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

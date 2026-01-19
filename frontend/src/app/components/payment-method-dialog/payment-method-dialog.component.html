@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>
+  {{ isEdit ? 'Editar Forma de Pagamento' : 'Nova Forma de Pagamento' }}
+  <button mat-icon-button mat-dialog-close class="close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="dialog-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome" placeholder="Ex: Cartão de Crédito">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Ícone (emoji)</mat-label>
+      <input matInput formControlName="icone" placeholder="Ex: 💳">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">Salvar</button>
+</mat-dialog-actions>

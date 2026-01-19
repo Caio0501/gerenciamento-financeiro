@@ -1,0 +1,12 @@
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 450px;
+}
+
+.close-btn {
+  position: absolute !important;
+  right: 8px;
+  top: 8px;
+}
