@@ -5,23 +5,19 @@
     class="app-sidenav"
     *ngIf="authService.isAuthenticated()"
   >
-    <div class="logo-area">
-      <mat-icon>account_balance_wallet</mat-icon>
-      <h1>FinanceApp</h1>
-    </div>
+    <div class="sidebar-header">
+      <div class="logo-area">
+        <mat-icon>account_balance_wallet</mat-icon>
+        <h1>FinanceApp</h1>
+      </div>
 
-    <div class="user-info" *ngIf="currentUser">
-      <div class="user-name">{{ currentUser.nome }}</div>
-      <div class="user-id">
-        <span>ID: {{ currentUser.id | slice: 0 : 8 }}...</span>
-        <button
-          mat-icon-button
-          class="copy-btn"
-          (click)="copyId()"
-          matTooltip="Copiar ID"
-        >
+      <div class="user-info" *ngIf="currentUser">
+        <div class="user-name">{{ currentUser.nome }}</div>
+        <div class="user-id" (click)="copyId()" matTooltip="Copiar ID">
+          <span>ID: {{ currentUser.id | slice: 0 : 16 }}...</span>
+
           <mat-icon>content_copy</mat-icon>
-        </button>
+        </div>
       </div>
     </div>
 
@@ -111,14 +107,16 @@
       </mat-nav-list>
     </div>
 
-    <div class="logout-section">
-      <button mat-button class="logout-btn" (click)="logout()">
-        <mat-icon>logout</mat-icon>
-        <span>Sair</span>
-      </button>
-    </div>
+    <div class="sidebar-footer-section">
+      <div class="logout-section">
+        <button mat-button class="logout-btn" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Sair</span>
+        </button>
+      </div>
 
-    <div class="sidebar-footer">© 2024 FinanceApp</div>
+      <div class="sidebar-footer">© 2024 FinanceApp</div>
+    </div>
   </mat-sidenav>
 
   <mat-sidenav-content
