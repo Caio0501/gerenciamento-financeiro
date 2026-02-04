@@ -18,6 +18,8 @@ import { ApiService } from './services/api.service';
 import { StateService } from './services/state.service';
 import { AuthService } from './services/auth.service';
 import { Empresa } from './models';
+import { Usuario } from './models/auth.models';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-root',
@@ -34,7 +36,9 @@ import { Empresa } from './models';
     MatIconModule,
     MatSelectModule,
     MatFormFieldModule,
+    MatFormFieldModule,
     FormsModule,
+    MatTooltipModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -42,6 +46,7 @@ import { Empresa } from './models';
 export class AppComponent implements OnInit {
   companies: Empresa[] = [];
   selectedCompany: Empresa | null = null;
+  currentUser: Usuario | null = null;
 
   constructor(
     private api: ApiService,
@@ -55,6 +60,10 @@ export class AppComponent implements OnInit {
     this.checkAuthentication();
 
     this.loadCompanies();
+    this.loadCompanies();
+    this.authService.currentUser$.subscribe(
+      (user) => (this.currentUser = user),
+    );
 
     // Subscribe to selected company changes
     this.state.selectedCompany$.subscribe((c) => (this.selectedCompany = c));
@@ -123,5 +132,11 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  copyId() {
+    if (this.currentUser?.id) {
+      navigator.clipboard.writeText(this.currentUser.id);
+    }
   }
 }

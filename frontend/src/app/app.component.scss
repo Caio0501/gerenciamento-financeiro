@@ -14,8 +14,8 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 28px 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 28px 24px 20px; /* Adjusted padding */
+    border-bottom: none; /* Removing border to merge visually with user info */
 
     mat-icon {
       background: linear-gradient(135deg, #00c853 0%, #00e676 100%);
@@ -39,10 +39,57 @@
     }
   }
 
-  .company-selector {
-    padding: 20px 16px;
+  .user-info {
+    padding: 0 24px 24px;
     margin-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 
+    .user-name {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #fff;
+      letter-spacing: 0.3px;
+    }
+
+    .user-id {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #8b92a5;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 6px 12px;
+      border-radius: 6px;
+      width: auto;
+
+      span {
+        font-family: "Roboto Mono", monospace;
+        letter-spacing: -0.5px;
+      }
+
+      .copy-btn {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        color: #8b92a5;
+        background: transparent;
+
+        mat-icon {
+          font-size: 14px;
+          width: 14px;
+          height: 14px;
+        }
+
+        &:hover {
+          color: #00e676;
+          background-color: rgba(0, 230, 118, 0.1);
+        }
+      }
+    }
+  }
+
+  .company-selector {
     label {
       display: block;
       font-size: 11px;
@@ -55,6 +102,10 @@
 
     .dark-input {
       width: 100%;
+
+      ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+        display: none !important;
+      }
 
       ::ng-deep .mat-mdc-form-field-flex {
         background-color: rgba(255, 255, 255, 0.05) !important;

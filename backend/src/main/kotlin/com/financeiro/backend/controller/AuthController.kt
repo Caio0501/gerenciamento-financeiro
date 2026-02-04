@@ -26,7 +26,8 @@ class AuthController(
             val response = AuthResponse(
                 token = token,
                 nome = usuario.nome,
-                email = usuario.email
+                email = usuario.email,
+                id = usuario.id!!
             )
             
             ResponseEntity.ok(response)
@@ -47,7 +48,8 @@ class AuthController(
             val response = AuthResponse(
                 token = token,
                 nome = usuario.nome,
-                email = usuario.email
+                email = usuario.email,
+                id = usuario.id!!
             )
             
             ResponseEntity.ok(response)

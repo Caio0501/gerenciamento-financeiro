@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import {
   AuthResponse,
@@ -16,11 +16,19 @@ export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth';
   private tokenKey = 'auth_token';
   private userKey = 'current_user';
+  private currentUserSubject = new BehaviorSubject<Usuario | null>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(
     private http: HttpClient,
     private router: Router,
-  ) {}
+  ) {
+    // Initialize user from local storage
+    const userJson = localStorage.getItem(this.userKey);
+    if (userJson) {
+      this.currentUserSubject.next(JSON.parse(userJson));
+    }
+  }
 
   register(data: RegisterRequest): Observable<AuthResponse> {
     return this.http
@@ -37,6 +45,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
+    this.currentUserSubject.next(null);
     this.router.navigate(['/login']);
   }
 
@@ -58,11 +67,12 @@ export class AuthService {
     localStorage.setItem(this.tokenKey, authResponse.token);
 
     const usuario: Usuario = {
-      id: '', // O backend não retorna o ID, mas podemos deixar vazio
+      id: authResponse.id,
       nome: authResponse.nome,
       email: authResponse.email,
     };
 
     localStorage.setItem(this.userKey, JSON.stringify(usuario));
+    this.currentUserSubject.next(usuario);
   }
 }

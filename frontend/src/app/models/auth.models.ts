@@ -19,4 +19,5 @@ export interface AuthResponse {
   token: string;
   nome: string;
   email: string;
+  id: string;
 }

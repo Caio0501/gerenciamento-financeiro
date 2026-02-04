@@ -14,5 +14,6 @@ data class LoginRequest(
 data class AuthResponse(
     val token: String,
     val nome: String,
-    val email: String
+    val email: String,
+    val id: java.util.UUID
 )

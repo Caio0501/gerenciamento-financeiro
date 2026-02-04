@@ -10,38 +10,53 @@
       <h1>FinanceApp</h1>
     </div>
 
-    <div class="company-selector">
-      <label>Empresa Ativa</label>
-
-      <!-- Show select when there are companies -->
-      <mat-form-field
-        appearance="outline"
-        class="dark-input"
-        *ngIf="companies.length > 0"
-      >
-        <mat-select
-          [ngModel]="selectedCompany"
-          (selectionChange)="onCompanyChange($event.value)"
+    <div class="user-info" *ngIf="currentUser">
+      <div class="user-name">{{ currentUser.nome }}</div>
+      <div class="user-id">
+        <span>ID: {{ currentUser.id | slice: 0 : 8 }}...</span>
+        <button
+          mat-icon-button
+          class="copy-btn"
+          (click)="copyId()"
+          matTooltip="Copiar ID"
         >
-          <mat-option *ngFor="let c of companies" [value]="c">
-            {{ c.nome }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <!-- Show register button when there are no companies -->
-      <button
-        *ngIf="companies.length === 0"
-        mat-raised-button
-        class="register-company-btn"
-        (click)="navigateToCompanies()"
-      >
-        <mat-icon>add_business</mat-icon>
-        <span>Cadastrar Empresa</span>
-      </button>
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </div>
     </div>
 
     <div class="nav-section">
+      <div class="company-selector">
+        <label>Empresa Ativa</label>
+
+        <!-- Show select when there are companies -->
+        <mat-form-field
+          appearance="outline"
+          class="dark-input"
+          *ngIf="companies.length > 0"
+        >
+          <mat-select
+            [ngModel]="selectedCompany"
+            (selectionChange)="onCompanyChange($event.value)"
+          >
+            <mat-option *ngFor="let c of companies" [value]="c">
+              {{ c.nome }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Show register button when there are no companies -->
+        <button
+          *ngIf="companies.length === 0"
+          mat-raised-button
+          class="register-company-btn"
+          (click)="navigateToCompanies()"
+        >
+          <mat-icon>add_business</mat-icon>
+          <span>Cadastrar Empresa</span>
+        </button>
+      </div>
+
       <h3>MENU PRINCIPAL</h3>
       <mat-nav-list>
         <a
