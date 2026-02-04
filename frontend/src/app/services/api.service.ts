@@ -1,15 +1,23 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Empresa, CategoriaGasto, FormaPagamento, TipoReceita, Gasto, Receita } from '../models';
+import { environment } from '../../enviroments/enviroment.prod';
+import {
+  CategoriaGasto,
+  Empresa,
+  FormaPagamento,
+  Gasto,
+  Receita,
+  TipoReceita,
+} from '../models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:8080/api';
+  private apiUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   // Empresa
   getEmpresas(): Observable<Empresa[]> {
@@ -26,32 +34,49 @@ export class ApiService {
 
   // Auxiliares
   getCategorias(): Observable<CategoriaGasto[]> {
-    return this.http.get<CategoriaGasto[]>(`${this.apiUrl}/auxiliares/categorias`);
+    return this.http.get<CategoriaGasto[]>(
+      `${this.apiUrl}/auxiliares/categorias`,
+    );
   }
 
   createCategoria(c: CategoriaGasto): Observable<CategoriaGasto> {
-    return this.http.post<CategoriaGasto>(`${this.apiUrl}/auxiliares/categorias`, c);
+    return this.http.post<CategoriaGasto>(
+      `${this.apiUrl}/auxiliares/categorias`,
+      c,
+    );
   }
 
   getFormasPagamento(): Observable<FormaPagamento[]> {
-    return this.http.get<FormaPagamento[]>(`${this.apiUrl}/auxiliares/formas-pagamento`);
+    return this.http.get<FormaPagamento[]>(
+      `${this.apiUrl}/auxiliares/formas-pagamento`,
+    );
   }
 
   createFormaPagamento(f: FormaPagamento): Observable<FormaPagamento> {
-    return this.http.post<FormaPagamento>(`${this.apiUrl}/auxiliares/formas-pagamento`, f);
+    return this.http.post<FormaPagamento>(
+      `${this.apiUrl}/auxiliares/formas-pagamento`,
+      f,
+    );
   }
 
   getTiposReceita(): Observable<TipoReceita[]> {
-    return this.http.get<TipoReceita[]>(`${this.apiUrl}/auxiliares/tipos-receita`);
+    return this.http.get<TipoReceita[]>(
+      `${this.apiUrl}/auxiliares/tipos-receita`,
+    );
   }
 
   createTipoReceita(t: TipoReceita): Observable<TipoReceita> {
-    return this.http.post<TipoReceita>(`${this.apiUrl}/auxiliares/tipos-receita`, t);
+    return this.http.post<TipoReceita>(
+      `${this.apiUrl}/auxiliares/tipos-receita`,
+      t,
+    );
   }
 
   // Financeiro
   getGastos(empresaId: string): Observable<Gasto[]> {
-    return this.http.get<Gasto[]>(`${this.apiUrl}/financeiro/gastos/${empresaId}`);
+    return this.http.get<Gasto[]>(
+      `${this.apiUrl}/financeiro/gastos/${empresaId}`,
+    );
   }
 
   createGasto(gasto: Gasto): Observable<Gasto> {
@@ -59,10 +84,15 @@ export class ApiService {
   }
 
   getReceitas(empresaId: string): Observable<Receita[]> {
-    return this.http.get<Receita[]>(`${this.apiUrl}/financeiro/receitas/${empresaId}`);
+    return this.http.get<Receita[]>(
+      `${this.apiUrl}/financeiro/receitas/${empresaId}`,
+    );
   }
 
   createReceita(receita: Receita): Observable<Receita> {
-    return this.http.post<Receita>(`${this.apiUrl}/financeiro/receitas`, receita);
+    return this.http.post<Receita>(
+      `${this.apiUrl}/financeiro/receitas`,
+      receita,
+    );
   }
 }

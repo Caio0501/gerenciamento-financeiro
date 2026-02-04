@@ -1,17 +1,24 @@
 package com.financeiro.backend.model
 
+import com.financeiro.backend.tenant.TenantEntityListener
 import jakarta.persistence.*
+import org.hibernate.annotations.Filter
+import org.hibernate.annotations.FilterDef
+import org.hibernate.annotations.ParamDef
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.UUID
 
 @Entity
+@EntityListeners(TenantEntityListener::class)
+@Filter(name = "tenantFilter", condition = "empresa_id = :empresaId")
 data class Gasto(
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     val id: UUID? = null,
 
     @ManyToOne(optional = false)
-    val empresa: Empresa,
+    @JoinColumn(name = "empresa_id")
+    var empresa: Empresa? = null,
 
     @Column(nullable = false)
     val dataPagamento: LocalDate,
@@ -29,12 +36,15 @@ data class Gasto(
 )
 
 @Entity
+@EntityListeners(TenantEntityListener::class)
+@Filter(name = "tenantFilter", condition = "empresa_id = :empresaId")
 data class Receita(
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     val id: UUID? = null,
 
     @ManyToOne(optional = false)
-    val empresa: Empresa,
+    @JoinColumn(name = "empresa_id")
+    var empresa: Empresa? = null,
 
     @Column(nullable = false)
     val dataRecebimento: LocalDate,

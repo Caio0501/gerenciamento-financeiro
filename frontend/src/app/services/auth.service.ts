@@ -8,12 +8,13 @@ import {
   RegisterRequest,
   Usuario,
 } from '../models/auth.models';
+import { environment } from '../../enviroments/enviroment.prod';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = environment.baseUrl + '/auth';
   private tokenKey = 'auth_token';
   private userKey = 'current_user';
   private currentUserSubject = new BehaviorSubject<Usuario | null>(null);
