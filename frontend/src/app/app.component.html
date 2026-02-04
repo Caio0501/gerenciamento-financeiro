@@ -5,21 +5,46 @@
       <h1>FinanceApp</h1>
     </div>
 
-    <div class="company-selector" *ngIf="companies.length > 0">
+    <div class="company-selector">
       <label>Empresa Ativa</label>
-      <mat-form-field appearance="outline" class="dark-input">
-        <mat-select [ngModel]="selectedCompany" (selectionChange)="onCompanyChange($event.value)">
+
+      <!-- Show select when there are companies -->
+      <mat-form-field
+        appearance="outline"
+        class="dark-input"
+        *ngIf="companies.length > 0"
+      >
+        <mat-select
+          [ngModel]="selectedCompany"
+          (selectionChange)="onCompanyChange($event.value)"
+        >
           <mat-option *ngFor="let c of companies" [value]="c">
             {{ c.nome }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <!-- Show register button when there are no companies -->
+      <button
+        *ngIf="companies.length === 0"
+        mat-raised-button
+        class="register-company-btn"
+        (click)="navigateToCompanies()"
+      >
+        <mat-icon>add_business</mat-icon>
+        <span>Cadastrar Empresa</span>
+      </button>
     </div>
 
     <div class="nav-section">
       <h3>MENU PRINCIPAL</h3>
       <mat-nav-list>
-        <a mat-list-item routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+        <a
+          mat-list-item
+          routerLink="/"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
           <mat-icon matListItemIcon>dashboard</mat-icon>
           <span matListItemTitle>Dashboard</span>
         </a>
@@ -39,24 +64,34 @@
 
       <h3>CONFIGURAÇÕES</h3>
       <mat-nav-list>
-        <a mat-list-item routerLink="/payment-methods" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/payment-methods"
+          routerLinkActive="active-link"
+        >
           <mat-icon matListItemIcon>payment</mat-icon>
           <span matListItemTitle>Formas de Pagamento</span>
         </a>
-        <a mat-list-item routerLink="/categories" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/categories"
+          routerLinkActive="active-link"
+        >
           <mat-icon matListItemIcon>label</mat-icon>
           <span matListItemTitle>Categorias</span>
         </a>
-        <a mat-list-item routerLink="/revenue-types" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/revenue-types"
+          routerLinkActive="active-link"
+        >
           <mat-icon matListItemIcon>trending_up</mat-icon>
           <span matListItemTitle>Tipos de Receita</span>
         </a>
       </mat-nav-list>
     </div>
 
-    <div class="sidebar-footer">
-      © 2024 FinanceApp
-    </div>
+    <div class="sidebar-footer">© 2024 FinanceApp</div>
   </mat-sidenav>
 
   <mat-sidenav-content class="main-content">

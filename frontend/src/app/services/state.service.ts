@@ -3,11 +3,14 @@ import { BehaviorSubject } from 'rxjs';
 import { Empresa } from '../models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StateService {
   private selectedCompanySubject = new BehaviorSubject<Empresa | null>(null);
   selectedCompany$ = this.selectedCompanySubject.asObservable();
+
+  private companyCreatedSubject = new BehaviorSubject<Empresa | null>(null);
+  companyCreated$ = this.companyCreatedSubject.asObservable();
 
   constructor() {
     // Try to load from localStorage if needed, or leave null
@@ -32,5 +35,9 @@ export class StateService {
 
   getCurrentCompany(): Empresa | null {
     return this.selectedCompanySubject.value;
+  }
+
+  notifyCompanyCreated(empresa: Empresa) {
+    this.companyCreatedSubject.next(empresa);
   }
 }

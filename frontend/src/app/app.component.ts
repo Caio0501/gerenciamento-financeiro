@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterOutlet, Router, RouterLinkActive } from '@angular/router';
+import {
+  RouterLink,
+  RouterOutlet,
+  Router,
+  RouterLinkActive,
+} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,20 +23,20 @@ import { Empresa } from './models';
   standalone: true,
   imports: [
     CommonModule,
-    RouterOutlet, 
-    RouterLink, 
+    RouterOutlet,
+    RouterLink,
     RouterLinkActive,
-    MatToolbarModule, 
+    MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
     MatListModule,
     MatIconModule,
     MatSelectModule,
     MatFormFieldModule,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   companies: Empresa[] = [];
@@ -40,30 +45,58 @@ export class AppComponent implements OnInit {
   constructor(
     private api: ApiService,
     private state: StateService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit() {
-    this.api.getEmpresas().subscribe(data => {
-      this.companies = data;
-      // Auto-select first if none selected
-      const current = this.state.getCurrentCompany();
-      if (current) {
-        // Validation: check if still exists
-        const found = this.companies.find(c => c.id === current.id);
-        this.selectedCompany = found || (this.companies.length > 0 ? this.companies[0] : null);
-      } else if (this.companies.length > 0) {
-        this.selectedCompany = this.companies[0];
-      }
-      
-      this.state.setCompany(this.selectedCompany);
-    });
+    this.loadCompanies();
 
-    this.state.selectedCompany$.subscribe(c => this.selectedCompany = c);
+    // Subscribe to selected company changes
+    this.state.selectedCompany$.subscribe((c) => (this.selectedCompany = c));
+
+    // Subscribe to company creation events
+    this.state.companyCreated$.subscribe((newCompany) => {
+      if (newCompany) {
+        // Reload companies list when a new one is created
+        this.loadCompanies(newCompany);
+      }
+    });
+  }
+
+  loadCompanies(selectCompany?: Empresa) {
+    this.api.getEmpresas().subscribe((data) => {
+      this.companies = data;
+
+      if (selectCompany) {
+        // Select the newly created company
+        const found = this.companies.find((c) => c.id === selectCompany.id);
+        if (found) {
+          this.selectedCompany = found;
+          this.state.setCompany(found);
+        }
+      } else {
+        // Auto-select first if none selected
+        const current = this.state.getCurrentCompany();
+        if (current) {
+          // Validation: check if still exists
+          const found = this.companies.find((c) => c.id === current.id);
+          this.selectedCompany =
+            found || (this.companies.length > 0 ? this.companies[0] : null);
+        } else if (this.companies.length > 0) {
+          this.selectedCompany = this.companies[0];
+        }
+
+        this.state.setCompany(this.selectedCompany);
+      }
+    });
   }
 
   onCompanyChange(empresa: Empresa) {
     this.state.setCompany(empresa);
     this.router.navigate(['/']); // Go to dashboard on change
+  }
+
+  navigateToCompanies() {
+    this.router.navigate(['/companies']);
   }
 }
