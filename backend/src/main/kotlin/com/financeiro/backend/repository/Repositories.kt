@@ -26,3 +26,8 @@ interface GastoRepository : JpaRepository<Gasto, UUID> {
 interface ReceitaRepository : JpaRepository<Receita, UUID> {
     fun findByEmpresaId(empresaId: UUID): List<Receita>
 }
+
+@Repository
+interface UsuarioRepository : JpaRepository<Usuario, UUID> {
+    fun findByEmail(email: String): Usuario?
+}

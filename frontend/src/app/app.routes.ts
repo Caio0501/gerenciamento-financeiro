@@ -12,15 +12,47 @@ import { RevenueTypesComponent } from './components/revenue-types/revenue-types.
 import { ExpensesComponent } from './components/expenses/expenses.component';
 import { RevenuesComponent } from './components/revenues/revenues.component';
 
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+
+import { authGuard } from './guards/auth.guard';
+
 export const routes: Routes = [
-  { path: '', component: DashboardComponent },
-  { path: 'companies', component: CompanyListComponent },
-  { path: 'company/:id', component: CompanyDetailComponent },
-  { path: 'expenses', component: ExpensesComponent },
-  { path: 'revenues', component: RevenuesComponent },
-  { path: 'payment-methods', component: PaymentMethodsComponent },
-  { path: 'categories', component: CategoriesComponent },
-  { path: 'revenue-types', component: RevenueTypesComponent },
-  { path: 'settings', component: AuxiliarySettingsComponent },
-  { path: '**', redirectTo: '' }
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+
+  { path: '', component: DashboardComponent, canActivate: [authGuard] },
+  {
+    path: 'companies',
+    component: CompanyListComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'company/:id',
+    component: CompanyDetailComponent,
+    canActivate: [authGuard],
+  },
+  { path: 'expenses', component: ExpensesComponent, canActivate: [authGuard] },
+  { path: 'revenues', component: RevenuesComponent, canActivate: [authGuard] },
+  {
+    path: 'payment-methods',
+    component: PaymentMethodsComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'categories',
+    component: CategoriesComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'revenue-types',
+    component: RevenueTypesComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'settings',
+    component: AuxiliarySettingsComponent,
+    canActivate: [authGuard],
+  },
+  { path: '**', redirectTo: 'login' },
 ];

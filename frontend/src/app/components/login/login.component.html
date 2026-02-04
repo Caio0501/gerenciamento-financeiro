@@ -1,0 +1,89 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>
+        <h1>Entrar</h1>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            formControlName="email"
+            placeholder="seu@email.com"
+          />
+          <mat-icon matPrefix>email</mat-icon>
+          @if (
+            loginForm.get("email")?.hasError("required") &&
+            loginForm.get("email")?.touched
+          ) {
+            <mat-error>Email é obrigatório</mat-error>
+          }
+          @if (
+            loginForm.get("email")?.hasError("email") &&
+            loginForm.get("email")?.touched
+          ) {
+            <mat-error>Email inválido</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Senha</mat-label>
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="senha"
+            placeholder="Digite sua senha"
+          />
+          <mat-icon matPrefix>lock</mat-icon>
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword = !hidePassword"
+          >
+            <mat-icon>{{
+              hidePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+          @if (
+            loginForm.get("senha")?.hasError("required") &&
+            loginForm.get("senha")?.touched
+          ) {
+            <mat-error>Senha é obrigatória</mat-error>
+          }
+          @if (
+            loginForm.get("senha")?.hasError("minlength") &&
+            loginForm.get("senha")?.touched
+          ) {
+            <mat-error>Senha deve ter no mínimo 6 caracteres</mat-error>
+          }
+        </mat-form-field>
+
+        @if (errorMessage) {
+          <div class="error-message">
+            {{ errorMessage }}
+          </div>
+        }
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="full-width submit-button"
+          [disabled]="loading || loginForm.invalid"
+        >
+          {{ loading ? "Entrando..." : "Entrar" }}
+        </button>
+      </form>
+
+      <div class="register-link">
+        <p>Não tem uma conta? <a routerLink="/register">Cadastre-se</a></p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

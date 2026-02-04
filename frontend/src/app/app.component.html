@@ -1,5 +1,10 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav mode="side" opened class="app-sidenav">
+  <mat-sidenav
+    mode="side"
+    opened
+    class="app-sidenav"
+    *ngIf="authService.isAuthenticated()"
+  >
     <div class="logo-area">
       <mat-icon>account_balance_wallet</mat-icon>
       <h1>FinanceApp</h1>
@@ -91,10 +96,20 @@
       </mat-nav-list>
     </div>
 
+    <div class="logout-section">
+      <button mat-button class="logout-btn" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Sair</span>
+      </button>
+    </div>
+
     <div class="sidebar-footer">© 2024 FinanceApp</div>
   </mat-sidenav>
 
-  <mat-sidenav-content class="main-content">
+  <mat-sidenav-content
+    class="main-content"
+    [class.with-padding]="authService.isAuthenticated()"
+  >
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

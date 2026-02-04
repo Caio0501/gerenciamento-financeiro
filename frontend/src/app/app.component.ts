@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from './services/api.service';
 import { StateService } from './services/state.service';
+import { AuthService } from './services/auth.service';
 import { Empresa } from './models';
 
 @Component({
@@ -46,9 +47,13 @@ export class AppComponent implements OnInit {
     private api: ApiService,
     private state: StateService,
     private router: Router,
+    public authService: AuthService,
   ) {}
 
   ngOnInit() {
+    // Verificar autenticação ao iniciar o app
+    this.checkAuthentication();
+
     this.loadCompanies();
 
     // Subscribe to selected company changes
@@ -61,6 +66,22 @@ export class AppComponent implements OnInit {
         this.loadCompanies(newCompany);
       }
     });
+  }
+
+  checkAuthentication() {
+    const isAuthenticated = this.authService.isAuthenticated();
+    const currentPath = this.router.url;
+    const publicPaths = ['/login', '/register'];
+
+    // Se não está autenticado e não está em rota pública, redirecionar para login
+    if (!isAuthenticated && !publicPaths.includes(currentPath)) {
+      this.router.navigate(['/login']);
+    }
+
+    // Se está autenticado e está tentando acessar login/register, redirecionar para dashboard
+    if (isAuthenticated && publicPaths.includes(currentPath)) {
+      this.router.navigate(['/']);
+    }
   }
 
   loadCompanies(selectCompany?: Empresa) {
@@ -98,5 +119,9 @@ export class AppComponent implements OnInit {
 
   navigateToCompanies() {
     this.router.navigate(['/companies']);
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }
