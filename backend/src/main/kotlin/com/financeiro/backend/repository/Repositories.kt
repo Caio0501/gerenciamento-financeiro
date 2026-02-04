@@ -31,3 +31,10 @@ interface ReceitaRepository : JpaRepository<Receita, UUID> {
 interface UsuarioRepository : JpaRepository<Usuario, UUID> {
     fun findByEmail(email: String): Usuario?
 }
+
+@Repository
+interface UsuarioEmpresaRepository : JpaRepository<UsuarioEmpresa, UUID> {
+    fun findByUsuarioId(usuarioId: UUID): List<UsuarioEmpresa>
+    fun findByEmpresaId(empresaId: UUID): List<UsuarioEmpresa>
+    fun findByUsuarioIdAndEmpresaId(usuarioId: UUID, empresaId: UUID): UsuarioEmpresa?
+}

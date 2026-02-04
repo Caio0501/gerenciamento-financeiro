@@ -10,10 +10,14 @@ import java.util.UUID
 @CrossOrigin(origins = ["*"])
 class EmpresaController(private val service: EmpresaService) {
     @GetMapping
-    fun findAll() = service.findAll()
+    fun findAll(principal: java.security.Principal): List<Empresa> {
+        return service.findAllByUser(principal.name)
+    }
 
     @PostMapping
-    fun create(@RequestBody empresa: Empresa) = service.save(empresa)
+    fun create(@RequestBody empresa: Empresa, principal: java.security.Principal): Empresa {
+        return service.createWithUser(empresa, principal.name)
+    }
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: UUID) = service.delete(id)

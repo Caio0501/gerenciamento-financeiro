@@ -7,11 +7,40 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
 @Service
-class EmpresaService(private val repository: EmpresaRepository) {
+class EmpresaService(
+    private val repository: EmpresaRepository,
+    private val usuarioRepository: UsuarioRepository,
+    private val usuarioEmpresaService: UsuarioEmpresaService
+) {
     fun findAll(): List<Empresa> = repository.findAll()
+    
+    fun findAllByUser(email: String): List<Empresa> {
+        val usuario = usuarioRepository.findByEmail(email) 
+            ?: throw RuntimeException("Usuario não encontrado")
+            
+        usuario.id?.let { userId ->
+            return usuarioEmpresaService.findByUsuario(userId).map { it.empresa }
+        }
+        return emptyList()
+    }
     fun save(empresa: Empresa): Empresa = repository.save(empresa)
     fun delete(id: UUID) = repository.deleteById(id)
     fun findById(id: UUID): Empresa = repository.findById(id).orElseThrow { RuntimeException("Empresa not found") }
+
+    @Transactional
+    fun createWithUser(empresa: Empresa, userEmail: String): Empresa {
+        val savedEmpresa = repository.save(empresa)
+        val usuario = usuarioRepository.findByEmail(userEmail)
+            ?: throw RuntimeException("Usuario não encontrado: $userEmail")
+        
+        usuario.id?.let { userId ->
+            savedEmpresa.id?.let { empresaId ->
+                usuarioEmpresaService.vincularUsuarioEmpresa(userId, empresaId)
+            }
+        }
+        
+        return savedEmpresa
+    }
 }
 
 @Service
